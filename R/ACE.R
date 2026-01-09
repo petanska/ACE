@@ -123,9 +123,6 @@ runACE <- function(inputdir = "./", outputdir, filetype = 'rds', genome = "hg19"
 	if(substr(inputdir,nchar(inputdir),nchar(inputdir)) != "/") {inputdir <- paste0(inputdir,"/")}
 	if(missing(outputdir)) { outputdir <- substr(inputdir,0,nchar(inputdir)-1) }
 	if(!dir.exists(outputdir)) {dir.create(outputdir)}
-  if (is.null(filter_chromosomes)) {
-    filter_chromosomes <- c("X", "Y", "MT")
-  }
 	if(filetype=='bam'){
 		if(missing(binsizes)) { binsizes <- c(100,500,1000) }
 	  parameters <- data.frame(options = c("inputdir","outputdir","filetype","binsizes","ploidies","imagetype","method","penalty","cap","bottom","trncname","printsummaries","autopick"), 
