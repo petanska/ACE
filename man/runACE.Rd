@@ -16,7 +16,7 @@ executed by \code{ploidyplotloop}, which handles one QDNAseq-object at a time.
 runACE(inputdir = "./", outputdir, filetype = 'rds', genome = 'hg19',
   binsizes, ploidies = 2, imagetype = 'pdf', method = 'RMSE', penalty = 0, 
   cap = 12, bottom = 0, trncname = FALSE, printsummaries = TRUE, 
-  savereadcounts = FALSE, autopick = FALSE)
+  savereadcounts = FALSE, autopick = FALSE, include_sex_chromosomes = FALSE)
   
 ploidyplotloop(copyNumbersSegmented, currentdir, ploidies = 2, 
   imagetype = 'pdf', method = 'RMSE', penalty = 0, cap = 12, 
@@ -40,6 +40,7 @@ ploidyplotloop(copyNumbersSegmented, currentdir, ploidies = 2,
   \item{printsummaries}{Logical. If you do not want the big summary files, you can set this argument to FALSE. If you still want the summary files containing only error plots, you can set this to 2. Default = TRUE}
   \item{savereadcounts}{Logical. When set to TRUE, readCounts-objects will be saved. Default = FALSE}
   \item{autopick}{Logical. When set to TRUE, ACE will fill in the cellularity of the best fit in the column likely_fit of the fitpicker file(s). Default = FALSE}
+  \item{include_sex_chromosomes}{Logical, When set to TRUE QDNAseq::applyFilters will include sex chromosome information. Default = FALSE}
 }
 \details{
 Since this is the core functionality of ACE, extensive documentation is available in the vignette.

@@ -118,7 +118,7 @@
 
 runACE <- function(inputdir = "./", outputdir, filetype = 'rds', genome = "hg19", binsizes, ploidies = 2, 
                    imagetype = 'pdf', method = 'RMSE', penalty = 0, cap = 12, bottom = 0, 
-                   trncname = FALSE, printsummaries = TRUE, savereadcounts = FALSE, autopick = FALSE, filter_chromosomes = NULL) { 
+                   trncname = FALSE, printsummaries = TRUE, savereadcounts = FALSE, autopick = FALSE, include_sex_chromosomes = FALSE) { 
 	imagefunction <- get(imagetype)
 	if(substr(inputdir,nchar(inputdir),nchar(inputdir)) != "/") {inputdir <- paste0(inputdir,"/")}
 	if(missing(outputdir)) { outputdir <- substr(inputdir,0,nchar(inputdir)-1) }
@@ -138,8 +138,12 @@ runACE <- function(inputdir = "./", outputdir, filetype = 'rds', genome = "hg19"
 		  if (savereadcounts == TRUE) {
 		    saveRDS(readCounts, file = file.path(outputdir, paste0(b, "kbp-raw.rds")))
 		  }
-		  readCountsFiltered <- QDNAseq::applyFilters(readCounts, residual = TRUE, blacklist = TRUE, chromosomes = filter_chromosomes)
+		  readCountsFiltered <- QDNAseq::applyFilters(readCounts, residual = TRUE, blacklist = TRUE)
 		  readCountsFiltered <- QDNAseq::estimateCorrection(readCountsFiltered)
+      if include_sex_chromosomes {
+        # https://bioconductor.org/packages/release/bioc/vignettes/QDNAseq/inst/doc/QDNAseq.pdf
+        readCountsFiltered <- QDNAseq::applyFilters(readCounts, residual = TRUE, blacklist = TRUE, chromosomes = NA)
+      }
 		  # the default correctBins will output a ratio; using method = 'median' will return a corrected readcount
 		  copyNumbers <- QDNAseq::correctBins(readCountsFiltered)
 		  copyNumbers <- QDNAseq::normalizeBins(copyNumbers)
