@@ -118,11 +118,14 @@
 
 runACE <- function(inputdir = "./", outputdir, filetype = 'rds', genome = "hg19", binsizes, ploidies = 2, 
                    imagetype = 'pdf', method = 'RMSE', penalty = 0, cap = 12, bottom = 0, 
-                   trncname = FALSE, printsummaries = TRUE, savereadcounts = FALSE, autopick = FALSE) { 
+                   trncname = FALSE, printsummaries = TRUE, savereadcounts = FALSE, autopick = FALSE, filter_chromosomes = NULL) { 
 	imagefunction <- get(imagetype)
 	if(substr(inputdir,nchar(inputdir),nchar(inputdir)) != "/") {inputdir <- paste0(inputdir,"/")}
 	if(missing(outputdir)) { outputdir <- substr(inputdir,0,nchar(inputdir)-1) }
 	if(!dir.exists(outputdir)) {dir.create(outputdir)}
+  if (is.null(filter_chromosomes)) {
+    filter_chromosomes <- c("X", "Y", "MT")
+  }
 	if(filetype=='bam'){
 		if(missing(binsizes)) { binsizes <- c(100,500,1000) }
 	  parameters <- data.frame(options = c("inputdir","outputdir","filetype","binsizes","ploidies","imagetype","method","penalty","cap","bottom","trncname","printsummaries","autopick"), 
@@ -135,7 +138,7 @@ runACE <- function(inputdir = "./", outputdir, filetype = 'rds', genome = "hg19"
 		  if (savereadcounts == TRUE) {
 		    saveRDS(readCounts, file = file.path(outputdir, paste0(b, "kbp-raw.rds")))
 		  }
-		  readCountsFiltered <- QDNAseq::applyFilters(readCounts, residual = TRUE, blacklist = TRUE)
+		  readCountsFiltered <- QDNAseq::applyFilters(readCounts, residual = TRUE, blacklist = TRUE, chromosomes = filter_chromosomes)
 		  readCountsFiltered <- QDNAseq::estimateCorrection(readCountsFiltered)
 		  # the default correctBins will output a ratio; using method = 'median' will return a corrected readcount
 		  copyNumbers <- QDNAseq::correctBins(readCountsFiltered)
