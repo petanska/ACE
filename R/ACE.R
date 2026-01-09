@@ -140,7 +140,7 @@ runACE <- function(inputdir = "./", outputdir, filetype = 'rds', genome = "hg19"
 		  }
 		  readCountsFiltered <- QDNAseq::applyFilters(readCounts, residual = TRUE, blacklist = TRUE)
 		  readCountsFiltered <- QDNAseq::estimateCorrection(readCountsFiltered)
-      if include_sex_chromosomes {
+      if(include_sex_chromosomes) {
         # https://bioconductor.org/packages/release/bioc/vignettes/QDNAseq/inst/doc/QDNAseq.pdf
         readCountsFiltered <- QDNAseq::applyFilters(readCounts, residual = TRUE, blacklist = TRUE, chromosomes = NA)
       }
