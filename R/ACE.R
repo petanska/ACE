@@ -139,7 +139,7 @@ runACE <- function(inputdir = "./", outputdir, filetype = 'rds', genome = "hg19"
 		  readCountsFiltered <- QDNAseq::estimateCorrection(readCountsFiltered)
       if(include_sex_chromosomes) {
         # https://bioconductor.org/packages/release/bioc/vignettes/QDNAseq/inst/doc/QDNAseq.pdf
-        readCountsFiltered <- QDNAseq::applyFilters(readCounts, residual = TRUE, blacklist = TRUE, chromosomes = NA)
+        readCountsFiltered <- QDNAseq::applyFilters(readCounts, residual = 2, chromosomes = NA)
       }
 		  # the default correctBins will output a ratio; using method = 'median' will return a corrected readcount
 		  copyNumbers <- QDNAseq::correctBins(readCountsFiltered)
